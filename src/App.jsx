@@ -13,7 +13,15 @@ function App() {
     const params = new URLSearchParams(window.location.search);
     const guest = params.get('guest');
     if (guest) {
-      setGuestName(guest);
+      try {
+        // Decode URI component and also replace + with space if necessary (though URLSearchParams usually handles +)
+        // Explicit replacement ensures full compatibility
+        const decodedName = decodeURIComponent(guest.replace(/\+/g, ' '));
+        setGuestName(decodedName);
+      } catch (e) {
+        // Fallback if decoding fails
+        setGuestName(guest);
+      }
     }
   }, []);
 
