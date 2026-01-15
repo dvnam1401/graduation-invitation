@@ -6,9 +6,26 @@ const Envelope = ({ onClick }) => {
         <motion.div
             className="relative w-[80vw] max-w-[400px] md:max-w-none md:w-[50vw] lg:w-[40vw] aspect-[1.6] cursor-pointer perspective-1000 group mx-auto"
             initial={{ scale: 0.8, opacity: 0 }}
-            animate={{ scale: 1, opacity: 1 }}
-            transition={{ duration: 0.8, type: "spring" }}
-            whileHover={{ scale: 1.02 }}
+            animate={{
+                scale: 1,
+                opacity: 1,
+                y: [0, -6, 0], // Gentle float
+            }}
+            transition={{
+                duration: 0.8,
+                type: "spring",
+                y: {
+                    duration: 6,
+                    repeat: Infinity,
+                    repeatType: "mirror",
+                    ease: "easeInOut",
+                }
+            }}
+            whileHover={{
+                scale: 1.02,
+                y: 0, // Stop floating on hover
+                transition: { duration: 0.3 }
+            }}
             onClick={onClick}
         >
             {/* Shadow */}
@@ -58,10 +75,21 @@ const Envelope = ({ onClick }) => {
             </motion.div>
 
             {/* "Click to Open" Hint */}
-            <div className="absolute -top-16 left-0 right-0 text-center animate-bounce">
-                <span className="bg-white/90 backdrop-blur-sm text-gray-700 px-6 py-2 rounded-full text-base md:text-lg font-medium shadow-lg tracking-wide">
+            <div className="absolute -top-16 left-0 right-0 text-center">
+                <motion.span
+                    className="inline-block bg-white/90 backdrop-blur-sm text-gray-700 px-6 py-2 rounded-full text-base md:text-lg font-medium shadow-lg tracking-wide"
+                    animate={{
+                        opacity: [0.7, 1, 0.7],
+                        scale: [1, 1.02, 1]
+                    }}
+                    transition={{
+                        duration: 3,
+                        repeat: Infinity,
+                        ease: "easeInOut"
+                    }}
+                >
                     Nhấn để mở thư
-                </span>
+                </motion.span>
             </div>
         </motion.div>
     );
